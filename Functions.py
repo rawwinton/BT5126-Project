@@ -6,6 +6,7 @@ import pandas as pd
 from sklearn.preprocessing import OneHotEncoder
 
 
+
 class ProcessDates(BaseEstimator, TransformerMixin):
     # def __init__(self):
     #     self = self
@@ -78,7 +79,7 @@ class ProcessWSpd(BaseEstimator, TransformerMixin):
             X['wspd'] = X['wspd'].apply(lambda x: self.get_wind_cat(x))
             ohe = OneHotEncoder(categories=[['Fresh_Breeze', 'Strong_Breeze', 'Near_Gale', 'Others']],
                                 handle_unknown='ignore', sparse=False)
-            sic =  pd.DataFrame(ohe.fit_transform(X[['wspd']]),columns=ohe.get_feature_names_out(),index=X.index)
+            sic = pd.DataFrame(ohe.fit_transform(X[['wspd']]), columns=ohe.get_feature_names_out(), index=X.index)
             return X.drop(columns=['wspd']).join(sic)
 
     @staticmethod
@@ -153,6 +154,8 @@ class DropZeroCol(BaseEstimator, TransformerMixin):
     # Method that describes what we need this transformer to do
     def transform(self, X, y=None):
         return X[:, ~np.all(X == 'XX', axis=0)]
+
+
 # class ProcesWeather(BaseEstimator, TransformerMixin):
 #     def __init__(self):
 #         self = self
